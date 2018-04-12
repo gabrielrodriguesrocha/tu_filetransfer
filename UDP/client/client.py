@@ -39,12 +39,12 @@ def client(host, port):
         print("Elapsed time: " + str(end - start) + " seconds")
     else:
         print ("Unrecognized command: " + sys.argv[1])
-        print ("Expected GET or SEND")
+        print ("Expected GET, SEND or LIST")
 
 def receiver(sock, f, size):
     while True:
         try:
-            sock.settimeout(2)
+            sock.settimeout(1)
             data = sock.recv(size)
             if data:
                 f.write(data)
@@ -60,7 +60,7 @@ def sender(sock, address, f, size):
         try:
             data = f.read(size)
             if data:
-                sock.sendto(data, host)
+                sock.send(data)
             else:
                 raise error('Server disconnected')
         except:
@@ -72,14 +72,14 @@ def sender(sock, address, f, size):
 def filelist(sock, size):
     while True:
         try:
+            sock.settimeout(1)
             data = sock.recv(size)
             if data:
                 print(data)
+                sock.close()
             else:
                 raise error('Server disconnected')
         except:
-            sock.shutdown(socket.SHUT_WR)
-            sock.close()
             return False
 
 if __name__ == "__main__":

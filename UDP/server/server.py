@@ -1,5 +1,6 @@
 import socket
 import time
+import os
 
 def server(host, port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -45,9 +46,8 @@ def handle(sock):
 def receiver(sock, f, size):
     while True:
         try:
-            sock.settimeout(2)
             data = sock.recv(size)
-            print(data)
+            sock.settimeout(1)
             if data:
                 f.write(data)
             else:
@@ -72,18 +72,20 @@ def sender(sock, address, f, size):
             return False
 
 def filelist(sock, size):
-    dir = os.listdir(os.getcwd())
+    current_dir = os.listdir(os.getcwd())
     data = ""
-    for file in dir:
-        data = data + file + "\n"
+    for x in current_dir:
+        data = data + x + "\n"
     try:
         if data:
             sock.send(data)
+            print("Sent data")
             sock.close()
         else:
             raise error('Client disconnected')
     except:
-        client.close()
+        print("Error")
+        sock.close()
         return False
 
 if __name__ == "__main__":

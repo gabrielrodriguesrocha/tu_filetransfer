@@ -78,10 +78,10 @@ def sender(client, f, size):
             return False
 
 def filelist(client, size):
-    dir = os.listdir(os.getcwd())
+    current_dir = os.listdir(os.getcwd())
     data = ""
-    for file in dir:
-        data = data + file + "\n"
+    for x in current_dir:
+        data = data + x + "\n"
     try:
         if data:
             client.send(data)
