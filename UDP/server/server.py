@@ -29,6 +29,7 @@ def handle(sock):
             print ("Receiving file %s" % (sp[1]))
             f = open(sp[1], 'wb')
             start = time.time()
+            f.write(sp[2])
             receiver(sock, f, size)
             end = time.time()
             print("Elapsed time: " + str(end - start) + " seconds")

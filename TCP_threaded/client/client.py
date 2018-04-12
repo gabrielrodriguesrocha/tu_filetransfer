@@ -86,4 +86,4 @@ if __name__ == "__main__":
     if (len(sys.argv) < 2): 
         print ("Usage: python client.py <GET | SEND | LIST> <filename>")
     else:
-        client(socket.gethostname(), 2000)
+        client(socket.gethostname(),2000)

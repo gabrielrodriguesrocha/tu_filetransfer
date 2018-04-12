@@ -22,6 +22,7 @@ def handle(client, address):
     print ("Request from " + address[0])
     try: 
         data = client.recv(size)
+        print(data)
         sp = data.split('\n')
         if sp[0] == 'GET':
             print ("Sending file %s" % (sp[1]))
@@ -34,6 +35,7 @@ def handle(client, address):
             print ("Receiving file %s" % (sp[1]))
             start = time.time()
             f = open(sp[1], 'wb')
+            f.write(sp[2])
             receiver(client, f, size)
             end = time.time()
             print("Elapsed time: " + str(end - start) + " seconds")
@@ -53,6 +55,7 @@ def receiver(client, f, size):
     while True:
         try:
             data = client.recv(size)
+            print(data)
             if data:
                 f.write(data)
             else:
